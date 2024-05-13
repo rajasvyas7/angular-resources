@@ -18,8 +18,21 @@ export class AppComponent {
   genders = ["Male", "Female", "Others"];
   selectedGender = "Male"
 
+  // to change the value of username field
   suggestUserName() {
-    const suggestedName = 'Superuser';
+    const suggestedName = 'sudouser';
+
+    //option 1 setting up the whole form
+    // this.vcForm.setValue({
+    //   //whole value object of the form
+    // })
+
+    // option 2 settinvg vlaue for a specific field 
+    this.vcForm.form.patchValue({
+      userDataGrp: {
+        username: suggestedName
+      }
+    });
   }
 
   /**
