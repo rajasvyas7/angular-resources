@@ -15,6 +15,9 @@ export class AppComponent {
   //to show 2 way binding
   answer = "Not answered yet."
 
+  genders = ["Male", "Female", "Others"];
+  selectedGender = "Male"
+
   suggestUserName() {
     const suggestedName = 'Superuser';
   }
