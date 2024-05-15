@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit{
     this.signupForm = new FormGroup({
       'userData': new FormGroup({
         'username': new FormControl(null, [Validators.required, this.checkUsername.bind(this)]),
-        'email': new FormControl(null, [Validators.required, Validators.email]),
+        'email': new FormControl(null, [Validators.required, Validators.email], this.checkEmail),
       }),
       'gender': new FormControl('male'),
       'hobbies': new FormArray([])
@@ -55,7 +56,19 @@ export class AppComponent implements OnInit{
   }
 
   //custome async validator
-  checkEmail() {}
+  checkEmail(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (control.value === "rajas.vyas@gmail.com") {
+          resolve({already_exist: true});
+        }
+        else {
+          resolve(null);
+        }
+      }, 2000);
+    });
+    return promise;
+  }
 
   //helper function to show the error mesgs
   getErrorMsg(err: string, entity: string) {
