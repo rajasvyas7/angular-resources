@@ -31,9 +31,15 @@ export class AppComponent implements OnInit{
     this.existingUsernames.push(this.signupForm.value.userData.username);
     console.log('Existing Users', this.existingUsernames);
     this.signupForm.reset({
-      gender: 'male',
-      hobbies: []
+        'userData': {
+          'username': null,
+          'email': null,
+        },
+        'gender': 'male',
+        // 'hobbies': new FormArray([])
     });
+    //to reset an form array element
+    (<FormArray>this.signupForm.get('hobbies')).clear();
   }
 
   // to add a field dynamically
