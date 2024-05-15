@@ -10,11 +10,6 @@ export class AppComponent implements OnInit{
   genders = ['male', 'female'];
   usersDB = [];
   existingUsernames = [];
-  userErrorMsgs = {
-    required: 'Please enter a username.',
-    already_exist: 'The username already exists.'
-  }
-
   signupForm: FormGroup;
 
   ngOnInit(): void {
@@ -40,20 +35,34 @@ export class AppComponent implements OnInit{
     });
   }
 
+  // to add a field dynamically
   onAddHobby() {
     const elmHobby = new FormControl(null, Validators.required);
     (<FormArray>this.signupForm.get('hobbies')).push(elmHobby);
   }
 
+  //a helper function
   getHobbiesControls() {
     return (<FormArray>this.signupForm.get('hobbies')).controls;
   }
 
   //Custom validator
   checkUsername(control: FormControl): {[key: string]: boolean} {
-    if (this.existingUsernames && this.existingUsernames.indexOf(control.value) >= 0) {
+    if (this.existingUsernames && this.existingUsernames.indexOf(control.value) >= 0) {//validating condition
       return {already_exist: true};
     }
     return null;
+  }
+
+  //custome async validator
+  checkEmail() {}
+
+  //helper function to show the error mesgs
+  getErrorMsg(err: string, entity: string) {
+    let errorMsgs = {
+      required: `Please enter an ${entity}.`,
+      already_exist: `The ${entity} already exists.`
+    };
+    return errorMsgs[err];
   }
 }
