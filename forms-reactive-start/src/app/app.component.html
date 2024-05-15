@@ -7,10 +7,13 @@
             <label for="username">Username</label>
             <input type="text" id="username" class="form-control" formControlName="username">
             <span *ngIf="signupForm.get('userData.username').touched && signupForm.get('userData.username').invalid"
-              class="help-block">Enter the username.</span>
+              class="help-block">
+              <p *ngIf="signupForm.get('userData.username').hasError('required')"> {{userErrorMsgs.required}}</p>
+              <p *ngIf="signupForm.get('userData.username').hasError('already_exist')">{{userErrorMsgs.already_exist}}</p>
+            </span>
           </div>
           <div class="form-group">
-            <label for="email">email</label>
+            <label for="email">Email</label>
             <input type="text" id="email" class="form-control" formControlName="email">
             <span *ngIf="signupForm.get('userData.email').touched && signupForm.get('userData.email').invalid" class="help-block">Enter a
               valid email.</span>
@@ -31,7 +34,7 @@
           </div>
         </div>
         <div class="form-group">
-          <button [disabled]="signupForm.invalid" class="btn btn-primary" type="submit">Submit</button>
+          <button [disabled]="signupForm.invalid" class="btn btn-primary" type="submit">Submit</button> 
         </div>
         
       </form>
