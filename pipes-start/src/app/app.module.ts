@@ -4,10 +4,12 @@ import { FormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
+import { EllipsisPipe } from './ellipsis.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    EllipsisPipe
   ],
   imports: [
     BrowserModule,
