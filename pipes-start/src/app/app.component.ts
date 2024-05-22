@@ -7,6 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   filteredStatus: string = '';
+  appStatus = new Promise((resolved, reject) => {
+    setTimeout(() => {
+      resolved('offline');
+    }, 3000)
+  });
   servers = [
     {
       instanceType: 'medium',
@@ -49,5 +54,12 @@ export class AppComponent {
       status: 'stable',
       started: new Date(15, 1, 2017)
     });
+  }
+
+  handleError(error: any) {
+    // Handle the error here.
+    console.error('Something went wrong!!');
+    return null;
+    
   }
 }
