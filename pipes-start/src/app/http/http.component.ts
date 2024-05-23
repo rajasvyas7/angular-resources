@@ -10,9 +10,12 @@ import { NgForm } from '@angular/forms';
 export class HttpComponent implements OnInit {
   @ViewChild('frm') httpForm: NgForm;
 
+  loadedPosts = [];
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.getPostsList();
   }
 
   onCreatePost() {
@@ -29,6 +32,16 @@ export class HttpComponent implements OnInit {
     this.httpForm.reset({
       title: '',
       content: ''
+    });
+  }
+
+  onFetchPosts() {
+    this.getPostsList();
+  }
+
+  getPostsList() {
+    this.http.get('https://angular-backend-2268c-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json').subscribe((posts) => {
+      console.log('posts list', posts);
     });
   }
 }
