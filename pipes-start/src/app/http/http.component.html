@@ -16,15 +16,15 @@
   </form>
   <hr>
   <div class="form-group col-xs-12">
-    <button type="button" class="btn btn-primary" (click)="onFetchPosts()">Fetch Posts</button> |
+    <button type="button" class="btn btn-primary" (click)="getPostsList()">Fetch Posts</button> |
     <button type="button" class="btn btn-danger">Clear Posts</button>
   </div>
 </div>
 <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
   <p *ngIf="loadedPosts.length === 0 && !isLoading">No post available</p>
   <ul class="list-group" *ngIf="loadedPosts.length > 0  && !isLoading">
-    <li class="list-group-item" *ngFor="let post of loadedPosts">
-      <h3>{{ post.title }}</h3>
+    <li class="list-group-item" *ngFor="let post of loadedPosts; let i=index;">
+      <h3>{{ i+1+". "+post.title }}</h3>
       <p>{{ post.content }}</p>
     </li>
   </ul>
