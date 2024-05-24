@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-http',
@@ -40,8 +41,23 @@ export class HttpComponent implements OnInit {
   }
 
   getPostsList() {
-    this.http.get('https://angular-backend-2268c-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json').subscribe((posts) => {
-      console.log('posts list', posts);
+    this.http.get('https://angular-backend-2268c-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json')
+    .pipe(map(respData => {
+      const postsArr = [];
+      for (const key in respData) {
+        if (respData.hasOwnProperty(key)) {
+          postsArr.push({...respData[key], id: key});
+        }
+      }
+      console.log('postsArr', postsArr);
+      return postsArr;
+    }))
+    .subscribe((posts) => {
+      console.log('posts list', typeof posts, posts);
     });
   }
 }
+
+// map((respData) => {
+  
+// })
