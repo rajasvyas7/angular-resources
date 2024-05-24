@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { map } from 'rxjs/operators';
+import { Post } from './post.model';
 
 @Component({
   selector: 'app-http',
@@ -10,9 +11,9 @@ import { map } from 'rxjs/operators';
 })
 export class HttpComponent implements OnInit {
   @ViewChild('frm') httpForm: NgForm;
-
-  loadedPosts = [];
-
+  
+  loadedPosts:Post[] = [];
+  isLoading = false;
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -26,6 +27,8 @@ export class HttpComponent implements OnInit {
       this.httpForm.value
     ).subscribe((respData) => {
       console.log('response', respData);
+      this.resetForm();
+      this.getPostsList();
     });
   }
 
@@ -41,9 +44,10 @@ export class HttpComponent implements OnInit {
   }
 
   getPostsList() {
+    this.isLoading = true;
     this.http.get('https://angular-backend-2268c-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json')
-    .pipe(map(respData => {
-      const postsArr = [];
+    .pipe(map((respData: {[key:string]: Post}) => {
+      const postsArr: Post[] = [];
       for (const key in respData) {
         if (respData.hasOwnProperty(key)) {
           postsArr.push({...respData[key], id: key});
@@ -52,8 +56,10 @@ export class HttpComponent implements OnInit {
       console.log('postsArr', postsArr);
       return postsArr;
     }))
-    .subscribe((posts) => {
+    .subscribe((posts: Post[]) => {
       console.log('posts list', typeof posts, posts);
+      this.loadedPosts = posts;
+      this.isLoading = false;
     });
   }
 }

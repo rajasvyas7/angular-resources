@@ -1,21 +1,32 @@
-<h1>Http tutorial</h1>
-<form #frm="ngForm" (ngSubmit)="onCreatePost()">
+<div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+  <h1>Http tutorial</h1>
+  <form #frm="ngForm" (ngSubmit)="onCreatePost()">
+    <div class="form-group col-xs-12">
+      <label>Title</label>
+      <input type="text" class="form-control" name="title" ngModel required="">
+    </div>
+    <div class="form-group col-xs-12">
+      <label>Content</label>
+      <textarea row="3" class="form-control" name="content" ngModel required=""></textarea>
+    </div>
+    <div class="form-group col-xs-12">
+      <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">Send Post</button> |
+      <button type="button" class="btn btn-default" (click)="resetForm()">Reset</button>
+    </div>
+  </form>
+  <hr>
   <div class="form-group col-xs-12">
-    <label>Title</label>
-    <input type="text" class="form-control" name="title" ngModel required="">
+    <button type="button" class="btn btn-primary" (click)="onFetchPosts()">Fetch Posts</button> |
+    <button type="button" class="btn btn-danger">Clear Posts</button>
   </div>
-  <div class="form-group col-xs-12">
-    <label>Content</label>
-    <textarea row="3" class="form-control" name="content" ngModel required=""></textarea>
-  </div>
-  <div class="form-group col-xs-12">
-    <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">Send Post</button> |
-    <button type="button" class="btn btn-default" (click)="resetForm()">Reset</button>
-  </div>
-</form>
-<hr>
-<div class="form-group col-xs-12">
-  <button type="button" class="btn btn-primary" (click)="onFetchPosts()">Fetch Posts</button> |
-  <button type="button" class="btn btn-danger">Clear Posts</button>
 </div>
-<p>No post available</p>
+<div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+  <p *ngIf="loadedPosts.length === 0 && !isLoading">No post available</p>
+  <ul class="list-group" *ngIf="loadedPosts.length > 0  && !isLoading">
+    <li class="list-group-item" *ngFor="let post of loadedPosts">
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.content }}</p>
+    </li>
+  </ul>
+  <p *ngIf=" isLoading">Loading...</p>
+</div>
