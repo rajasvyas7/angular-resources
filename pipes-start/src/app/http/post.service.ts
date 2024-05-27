@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Post } from "./post.model";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { map } from "rxjs/operators";
 
 @Injectable({ providedIn: 'root' })
@@ -28,7 +28,19 @@ export class PostService {
   }
 
   listPosts() { // option 2: returning the httpCLient & subscribing at the component
-    return this.http.get(`${this.FIREBASE_URL}posts.json`)
+    let reqParams = new HttpParams();
+    reqParams = reqParams.appendAll({
+      print: 'pretty',
+      param2: 'awesome',
+      param3: 'rajas'
+    })
+    return this.http.get(
+      `${this.FIREBASE_URL}posts.json`,
+      {
+        headers: new HttpHeaders({'custom_auth' : "Rajas Vyas"}),
+        params: reqParams //option2 for paramas: new HttpParams().set('print', "pretty").set('a', 'A')
+      }
+    )
       .pipe(
         map((respData: { [key: string]: Post }) => {
           const postsArr: Post[] = [];
