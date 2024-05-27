@@ -17,7 +17,7 @@
   <hr>
   <div class="form-group col-xs-12">
     <button type="button" class="btn btn-primary" (click)="getPostsList()">Fetch Posts</button> |
-    <button type="button" class="btn btn-danger">Clear Posts</button>
+    <button type="button" class="btn btn-danger" (click)="onClearPosts()">Clear Posts</button>
   </div>
 </div>
 <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
@@ -28,5 +28,10 @@
       <p>{{ post.content }}</p>
     </li>
   </ul>
-  <p *ngIf=" isLoading">Loading...</p>
+  <p *ngIf=" isLoading && !error">Loading...</p>
+  <div class="alert alert-danger" *ngIf="error">
+    <h4>Error: {{ error.status+" "+error.statusText }} </h4>
+    <p> {{error.message}} </p>
+  </div>
 </div>
+

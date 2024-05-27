@@ -15,6 +15,7 @@ export class HttpComponent implements OnInit {
   
   loadedPosts:Post[] = [];
   isLoading = false;
+  error = null;
 
   constructor(private http: HttpClient, private postService: PostService) { }
 
@@ -44,10 +45,26 @@ export class HttpComponent implements OnInit {
   getPostsList() {
     this.isLoading = true;
     this.postService.listPosts()
-    .subscribe((posts: Post[]) => {
-      this.loadedPosts = posts;
-      this.isLoading = false;
-    });
+    .subscribe(
+      (posts: Post[]) => {
+        this.loadedPosts = posts;
+        this.isLoading = false;
+      },
+      (error) => {
+        console.log('fetch error', error);
+        this.error = error;
+      }
+    );
+  }
+
+  onClearPosts() {
+    if (confirm("All posts will be deleted, do you want to continue?")) {
+      this.postService.deleteAllPosts()
+      .subscribe((data:any) => {
+        console.log('deleted', data);
+        this.loadedPosts = [];
+      })
+    }
   }
 }
 
